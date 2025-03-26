@@ -26,8 +26,8 @@ class User extends Authenticatable
         'password',
         'address',
         'image',
-        'gender',
         'type',
+        'is_verified',
         'is_active',
     ];
     

@@ -13,12 +13,20 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
             $table->string('subject');
             $table->text('description');
             $table->enum('priority', ['Low', 'Medium', 'High'])->default('Medium');
-            $table->foreignId('status_id')->constrained()->onDelete('cascade');
+
+            $table->unsignedBigInteger('status_id');
+            $table->foreign('status_id')->references('id')->on('ticket_statuses')->onDelete('cascade');
+
             $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
