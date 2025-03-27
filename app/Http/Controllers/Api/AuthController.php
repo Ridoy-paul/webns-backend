@@ -4,16 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Otp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Utilities\SMSUtility;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Intervention\Image\Laravel\Facades\Image;
-use App\Utilities\MessUtil;
 
 class AuthController extends Controller
 {
@@ -125,59 +121,7 @@ class AuthController extends Controller
         }
     }
 
-    /*
-    public function login(Request $request)
-    {
-        try {
-            $loginUserData = $request->validate([
-                'phone' => 'required',
-                'password' => 'required'
-            ]);
-
-            $phone = $loginUserData['phone'];
-            $user = User::where('phone', $phone)->first();
-
-            if ($user && Hash::check($loginUserData['password'], $user->password)) {
-                
-                Auth::login($user);
-
-                //$request->session()->regenerate();
-
-                $token = $user->createToken('API Token')->plainTextToken;
-
-                $success['_token'] =  $token;
-                $success['token_type'] = 'Bearer';
-                $success['id'] = $user->id;
-                $success['name'] = $user->name;
-                $success['phone'] = $user->phone;
-                $success['photo'] = $user->photo ?? '';
-                $success['theme_mode'] = $user->theme_mode ?? '';
-                $success['lang'] = $user->lang ?? '';
-                $success['is_mess_system_active'] = $user->is_mess_system_active ?? false;
-                $success['default_mess_code'] = $user->default_mess_code ?? '';
-                $success['is_show_mess_dashboard_init'] = $user->is_show_mess_dashboard_init ?? false;
-                $success['last_search_info'] = $user->last_search_info ?? [];
-
-                return $this->rh->sendResponse(
-                    isSuccess: true,
-                    statusCode: 200,
-                    errorMessage: '',
-                    responseData: $success
-                );
-            } else {
-                return $this->rh->sendResponse(
-                    statusCode: 200,
-                    errorMessage: 'Invalid Credentials.',
-                );
-            }
-        } catch (\Exception $e) {
-            return $this->rh->sendResponse(
-                statusCode: 500,
-            );
-        }
-    }
-    */
-
+    
     public static function getProfileResponse($isToken = false, $token = '', $user) {
 
         if($isToken == true) {

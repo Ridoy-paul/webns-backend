@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\TicketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Broadcast;
@@ -20,6 +21,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:200,1']], func
         Route::get('/profile', [AuthController::class, 'getProfile']);
         Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         Route::post('/auth-change-password', [AuthController::class, 'authChangePassword']);
+
+
+        // Ticket Routes
+        Route::controller(TicketController::class)->group(function () {
+            Route::get('/ticket/get-status-category', 'getTicketStatusAndCategory');
+            Route::post('/ticket/store-ticket', 'storeTicket');
+            
+        });
         
         
 
