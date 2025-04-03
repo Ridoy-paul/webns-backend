@@ -64,6 +64,13 @@ Ensure you have the following installed:
 
 The backend should now be running at **http://localhost:8000** 🚀.
 
+Admin Login Information:
+   ```sh
+   email: admin@gmail.com
+   password: 12345678
+   ```
+
+
 ---
 
 ## Deployment
