@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TicketController;
+use App\Http\Controllers\Api\TicketCommentController;
+use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\ChatController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Broadcast;
@@ -11,7 +15,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:200,1']], func
 
     Route::prefix('auth')->group(function () {
         Route::post('/login', [AuthController::class, 'login'])->middleware('web');
-        
         Route::post('/register', [AuthController::class, 'register'])->middleware('web');
     });
 
@@ -22,19 +25,32 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'throttle:200,1']], func
         Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         Route::post('/auth-change-password', [AuthController::class, 'authChangePassword']);
 
+        Route::get('/dashboard/get-report', [DashboardController::class, 'getDashboardData']);
+
 
         // Ticket Routes
         Route::controller(TicketController::class)->group(function () {
             Route::get('/ticket/get-status-category', 'getTicketStatusAndCategory');
-            Route::post('/ticket/store-ticket', 'storeTicket');
+            Route::post('/ticket/save-ticket-data', 'saveTicketData');
+            Route::get('/ticket/get-list', 'getTicketList');
+            Route::get('/ticket/get-item', 'getTicketItem');
+            Route::get('/ticket/delete-item', 'deleteTicketItem');
+
+        });
+
+        Route::controller(TicketCommentController::class)->group(function () {
             
+            Route::get('/ticket/get-item-comments', 'getTicketComment');
+            Route::post('/ticket/save-item-comments', 'saveTicketComment');
+
         });
         
+
+        // Live Chat
+        Route::post('/send-message', [ChatController::class, 'sendMessage']);
+        Route::get('/chat-history/{ticket_id}', [ChatController::class, 'getMessages']);
         
 
-       
-
-        
 
         // Client Start
         Route::middleware(['user'])->prefix('client')->group(function () {

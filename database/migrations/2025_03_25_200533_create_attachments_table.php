@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('ticket_id');
-            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
+            $table->unsignedBigInteger('tickets_id');
+            $table->foreign('tickets_id')->references('id')->on('tickets')->onDelete('cascade');
 
             $table->string('file_path');
-
+            $table->string('file_name');
             $table->timestamps();
         });
     }
